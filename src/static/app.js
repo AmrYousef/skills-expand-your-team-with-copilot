@@ -4,7 +4,13 @@ document.addEventListener("DOMContentLoaded", () => {
   const darkModeIcon = document.getElementById("dark-mode-icon");
 
   // Check for saved dark mode preference
-  const isDarkMode = localStorage.getItem("darkMode") === "true";
+  let isDarkMode = false;
+  try {
+    isDarkMode = localStorage.getItem("darkMode") === "true";
+  } catch (error) {
+    console.warn("localStorage not available:", error);
+  }
+  
   if (isDarkMode) {
     document.body.classList.add("dark-mode");
     darkModeIcon.textContent = "☀️";
@@ -19,7 +25,11 @@ document.addEventListener("DOMContentLoaded", () => {
     darkModeIcon.textContent = isNowDarkMode ? "☀️" : "🌙";
     
     // Save preference
-    localStorage.setItem("darkMode", isNowDarkMode);
+    try {
+      localStorage.setItem("darkMode", isNowDarkMode);
+    } catch (error) {
+      console.warn("Failed to save dark mode preference:", error);
+    }
   });
 
   // DOM elements
